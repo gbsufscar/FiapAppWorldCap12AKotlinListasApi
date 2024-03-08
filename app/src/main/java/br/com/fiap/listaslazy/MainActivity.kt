@@ -25,6 +25,10 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -57,6 +61,17 @@ class MainActivity : ComponentActivity() {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun GamesScreen() {
+    // Variáveis de estado
+    //--Variável de estado que armazena o valor do campo de texto
+    var searchTextState by remember {
+        mutableStateOf("")
+    }
+    //--Variável de estado que armazena a lista de jogos
+    var gamesListState by remember {
+        mutableStateOf(getAllGames())
+    }
+
+    // Componentes e layout da tela
     Column(modifier = Modifier.padding(16.dp)) {
         Text(
             text = "Meus jogos favoritos",
@@ -65,14 +80,21 @@ fun GamesScreen() {
         )
         Spacer(modifier = Modifier.height(16.dp))
         OutlinedTextField(
-            value = "",
-            onValueChange = {},
+            value = searchTextState, // Valor do campo de texto que é armazenado na variável de estado
+            onValueChange = {
+                searchTextState = it // Função que atualiza o valor da variável de estado
+
+                // -- Atualiza a lista de jogos na medida que o usuário digita
+                //gamesListState = getGamesByStudio(it) // Função que atualiza a lista de jogos
+            },
             modifier = Modifier.fillMaxWidth(),
             label = {
                 Text(text = "Nome do estúdio")
             },
             trailingIcon = {
-                IconButton(onClick = { /*TODO*/ }) {
+                IconButton(onClick = {
+                    gamesListState = getGamesByStudio(searchTextState)
+                }) {
                     Icon(
                         imageVector = Icons.Default.Search,
                         contentDescription = ""
@@ -85,7 +107,7 @@ fun GamesScreen() {
         // LazyColumn é um componente que permite a criação de listas de itens
         LazyColumn {
             // items é um método que recebe uma lista de itens e um bloco de código que será executado para cada item
-            items(getAllGames()) {
+            items(gamesListState) {//
                 GameCard(game = it) // Cria um card para cada jogo
             }
         }

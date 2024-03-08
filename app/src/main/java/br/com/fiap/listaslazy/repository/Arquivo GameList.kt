@@ -18,6 +18,7 @@ fun getAllGames(): List<Game> {
     )
 }
 
+// Método que retorna uma lista de jogos filtrada por estúdio
 fun getGamesByStudio(studio: String): List<Game>{
     return getAllGames().filter {
         it.studio.startsWith(prefix = studio, ignoreCase = true)
