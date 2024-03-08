@@ -12,7 +12,9 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
@@ -104,6 +106,14 @@ fun GamesScreen() {
         )
         Spacer(modifier = Modifier.height(16.dp))
 
+        // LazyRow é um componente que permite a criação de listas horizontais
+        LazyRow {
+            items(gamesListState) {
+                StudioGameCard(game = it)
+            }
+        }
+        Spacer(modifier = Modifier.height(16.dp))
+
         // LazyColumn é um componente que permite a criação de listas de itens
         LazyColumn {
             // items é um método que recebe uma lista de itens e um bloco de código que será executado para cada item
@@ -111,6 +121,7 @@ fun GamesScreen() {
                 GameCard(game = it) // Cria um card para cada jogo
             }
         }
+
     }
 }
 
@@ -150,6 +161,32 @@ fun GameCard(game: Game) {
             )
 
         }
+    }
+}
+
+
+@Composable
+fun StudioGameCard(game: Game) {
+    Card(
+        modifier = Modifier
+            .size(100.dp)
+            .padding(end = 4.dp)
+    ) {
+        Column(
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally,
+            modifier = Modifier.fillMaxSize()
+        ) {
+            Text(text = game.studio)
+        }
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun DefaultPreview() {
+    ListasLazyTheme {
+        GamesScreen()
     }
 }
 
