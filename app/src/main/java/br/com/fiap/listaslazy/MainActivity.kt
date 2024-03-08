@@ -85,7 +85,7 @@ fun GamesScreen() {
                 searchTextState = it // Função que atualiza o valor da variável de estado
 
                 // -- Atualiza a lista de jogos na medida que o usuário digita
-                //gamesListState = getGamesByStudio(it) // Função que atualiza a lista de jogos
+                gamesListState = getGamesByStudio(it) // Função que atualiza a lista de jogos
             },
             modifier = Modifier.fillMaxWidth(),
             label = {
